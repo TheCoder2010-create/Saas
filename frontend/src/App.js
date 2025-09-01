@@ -808,7 +808,9 @@ const DeployTab = ({ deployedModels, models, onRefresh }) => {
   const handleDeploy = async (modelId) => {
     setDeploying(modelId);
     try {
-      await axios.post(`${API}/models/${modelId}/deploy`);
+      // For demo mode, simulate deployment
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      alert('Demo: Model would be deployed successfully!');
       onRefresh();
     } catch (error) {
       console.error('Deployment failed:', error);
