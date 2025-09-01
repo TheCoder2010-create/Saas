@@ -5,73 +5,11 @@ import axios from 'axios';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Auth Context
-const AuthContext = React.createContext();
-
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
-  }, [token]);
-
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post(`${API}/auth/login`, { email, password });
-      const { access_token, user } = response.data;
-      
-      setToken(access_token);
-      setUser(user);
-      localStorage.setItem('token', access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-      
-      return true;
-    } catch (error) {
-      console.error('Login failed:', error);
-      return false;
-    }
-  };
-
-  const register = async (email, password, name) => {
-    try {
-      const response = await axios.post(`${API}/auth/register`, { email, password, name });
-      const { access_token, user } = response.data;
-      
-      setToken(access_token);
-      setUser(user);
-      localStorage.setItem('token', access_token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-      
-      return true;
-    } catch (error) {
-      console.error('Registration failed:', error);
-      return false;
-    }
-  };
-
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, token, login, register, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+// Mock user for demo without auth
+const DEMO_USER = {
+  id: 'demo-user-123',
+  name: 'Demo User',
+  email: 'demo@aiplatform.com'
 };
 
 // Components
