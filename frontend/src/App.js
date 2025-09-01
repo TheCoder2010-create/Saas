@@ -199,12 +199,10 @@ const Dashboard = () => {
         <div className="header-content">
           <div className="header-left">
             <h1 className="dashboard-title">🤖 AI Model Trainer</h1>
-            <p className="dashboard-subtitle">Welcome back, {user?.name}</p>
+            <p className="dashboard-subtitle">Welcome, {user?.name}</p>
           </div>
           <div className="header-right">
-            <button onClick={logout} className="logout-button">
-              Sign Out
-            </button>
+            <span className="demo-badge">Demo Mode</span>
           </div>
         </div>
       </header>
