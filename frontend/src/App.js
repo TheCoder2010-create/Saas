@@ -617,12 +617,9 @@ const ModelTraining = ({ datasets, onClose, onSuccess }) => {
 
     setTraining(true);
     try {
-      const formData = new FormData();
-      formData.append('dataset_id', selectedDataset);
-      formData.append('model_name', modelName);
-      formData.append('custom_prompt', customPrompt);
-
-      await axios.post(`${API}/models/train`, formData);
+      // For demo mode, simulate training
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      alert('Demo: Model would be trained successfully!');
       onSuccess();
     } catch (error) {
       console.error('Training failed:', error);
