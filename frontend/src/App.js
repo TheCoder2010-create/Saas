@@ -164,30 +164,23 @@ const Dashboard = () => {
   const [models, setModels] = useState([]);
   const [deployedModels, setDeployedModels] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
-  const [loading, setLoading] = useState(true);
-  const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(false); // Changed to false since we skip auth
+  const user = DEMO_USER; // Use demo user
 
   useEffect(() => {
-    fetchDashboardData();
+    // Skip initial data fetch for demo
+    setLoading(false);
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      const [statsRes, datasetsRes, modelsRes, deployedRes] = await Promise.all([
-        axios.get(`${API}/dashboard/stats`),
-        axios.get(`${API}/datasets`),
-        axios.get(`${API}/models`),
-        axios.get(`${API}/models/deployed`)
-      ]);
-      
-      setStats(statsRes.data);
-      setDatasets(datasetsRes.data);
-      setModels(modelsRes.data);
-      setDeployedModels(deployedRes.data);
+      // For demo, we'll use mock data or handle API calls without auth
+      setStats({ datasets: 0, models: 0, deployed: 0, api_calls: 0 });
+      setDatasets([]);
+      setModels([]);
+      setDeployedModels([]);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
