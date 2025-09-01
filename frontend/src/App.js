@@ -12,169 +12,21 @@ const DEMO_USER = {
   email: 'demo@aiplatform.com'
 };
 
-// Components
-const LoginForm = ({ onSwitchToRegister }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const success = await login(email, password);
-    if (!success) {
-      alert('Login failed. Please check your credentials.');
-    }
-    setLoading(false);
-  };
-
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-title">Welcome Back</h2>
-        <p className="auth-subtitle">Sign in to your AI training platform</p>
-        
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="form-input"
-              placeholder="your@email.com"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="form-input"
-              placeholder="Your password"
-            />
-          </div>
-          
-          <button type="submit" disabled={loading} className="auth-button">
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-        
-        <p className="auth-switch">
-          Don't have an account?{' '}
-          <button onClick={onSwitchToRegister} className="auth-link">
-            Sign up here
-          </button>
-        </p>
-      </div>
-    </div>
-  );
-};
-
-const RegisterForm = ({ onSwitchToLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const success = await register(email, password, name);
-    if (!success) {
-      alert('Registration failed. Please try again.');
-    }
-    setLoading(false);
-  };
-
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-title">Create Account</h2>
-        <p className="auth-subtitle">Start training custom AI models today</p>
-        
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="name">Full Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="form-input"
-              placeholder="Your full name"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="form-input"
-              placeholder="your@email.com"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="form-input"
-              placeholder="Choose a strong password"
-              minLength="6"
-            />
-          </div>
-          
-          <button type="submit" disabled={loading} className="auth-button">
-            {loading ? 'Creating account...' : 'Create Account'}
-          </button>
-        </form>
-        
-        <p className="auth-switch">
-          Already have an account?{' '}
-          <button onClick={onSwitchToLogin} className="auth-link">
-            Sign in here
-          </button>
-        </p>
-      </div>
-    </div>
-  );
-};
-
 const Dashboard = () => {
   const [stats, setStats] = useState({ datasets: 0, models: 0, deployed: 0, api_calls: 0 });
   const [datasets, setDatasets] = useState([]);
   const [models, setModels] = useState([]);
   const [deployedModels, setDeployedModels] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
-  const [loading, setLoading] = useState(false); // Changed to false since we skip auth
-  const user = DEMO_USER; // Use demo user
+  const [loading, setLoading] = useState(false);
+  const user = DEMO_USER;
 
   useEffect(() => {
-    // Skip initial data fetch for demo
     setLoading(false);
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      // For demo, we'll use mock data or handle API calls without auth
       setStats({ datasets: 0, models: 0, deployed: 0, api_calls: 0 });
       setDatasets([]);
       setModels([]);
@@ -416,7 +268,6 @@ const DatasetUpload = ({ onClose, onSuccess }) => {
 
     setUploading(true);
     try {
-      // For demo mode, simulate upload
       await new Promise(resolve => setTimeout(resolve, 2000));
       alert('Demo: File would be uploaded successfully!');
       onSuccess();
@@ -518,17 +369,10 @@ const ModelsTab = ({ models, datasets, onRefresh }) => {
         <button 
           className="primary-button"
           onClick={() => setShowTraining(true)}
-          disabled={datasets.length === 0}
         >
           + Train New Model
         </button>
       </div>
-      
-      {datasets.length === 0 && (
-        <div className="warning-banner">
-          ⚠️ Upload a dataset first before training models
-        </div>
-      )}
       
       {showTraining && (
         <ModelTraining 
@@ -587,7 +431,7 @@ const ModelsTab = ({ models, datasets, onRefresh }) => {
           </div>
         ))}
         
-        {models.length === 0 && datasets.length > 0 && (
+        {models.length === 0 && (
           <div className="empty-state">
             <div className="empty-icon">🧠</div>
             <h3>No models trained yet</h3>
@@ -617,7 +461,6 @@ const ModelTraining = ({ datasets, onClose, onSuccess }) => {
 
     setTraining(true);
     try {
-      // For demo mode, simulate training
       await new Promise(resolve => setTimeout(resolve, 3000));
       alert('Demo: Model would be trained successfully!');
       onSuccess();
@@ -712,7 +555,6 @@ const ModelTesting = ({ model, onClose }) => {
 
     setTesting(true);
     try {
-      // For demo mode, simulate AI response
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       const demoResponse = `Demo Response: Based on the model "${model.name}", here's a sample response to "${inputText}". In a real implementation, this would be processed by the Gemini AI with your custom training data.`;
@@ -808,7 +650,6 @@ const DeployTab = ({ deployedModels, models, onRefresh }) => {
   const handleDeploy = async (modelId) => {
     setDeploying(modelId);
     try {
-      // For demo mode, simulate deployment
       await new Promise(resolve => setTimeout(resolve, 2000));
       alert('Demo: Model would be deployed successfully!');
       onRefresh();

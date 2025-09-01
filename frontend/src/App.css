@@ -39,6 +39,16 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Demo badge */
+.demo-badge {
+  background: #e53e3e;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 /* Auth styles */
 .auth-container {
   min-height: 100vh;
