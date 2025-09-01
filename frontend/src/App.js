@@ -416,14 +416,9 @@ const DatasetUpload = ({ onClose, onSuccess }) => {
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('name', name);
-
-      await axios.post(`${API}/datasets/upload`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-
+      // For demo mode, simulate upload
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      alert('Demo: File would be uploaded successfully!');
       onSuccess();
     } catch (error) {
       console.error('Upload failed:', error);
