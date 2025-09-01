@@ -275,13 +275,9 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "User Authentication System"
-    - "Dataset Upload and Processing" 
-    - "AI Model Training with Gemini"
+  current_focus: []
+  stuck_tasks: 
     - "Model Testing API"
-    - "Model Deployment API"
-  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
