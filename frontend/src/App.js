@@ -901,28 +901,10 @@ const DeployTab = ({ deployedModels, models, onRefresh }) => {
 };
 
 const App = () => {
-  const [showLogin, setShowLogin] = useState(true);
-
   return (
     <div className="App">
-      <AuthProvider>
-        <AppContent showLogin={showLogin} setShowLogin={setShowLogin} />
-      </AuthProvider>
+      <Dashboard />
     </div>
-  );
-};
-
-const AppContent = ({ showLogin, setShowLogin }) => {
-  const { user } = useAuth();
-
-  if (user) {
-    return <Dashboard />;
-  }
-
-  return showLogin ? (
-    <LoginForm onSwitchToRegister={() => setShowLogin(false)} />
-  ) : (
-    <RegisterForm onSwitchToLogin={() => setShowLogin(true)} />
   );
 };
 
