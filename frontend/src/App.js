@@ -712,19 +712,20 @@ const ModelTesting = ({ model, onClose }) => {
 
     setTesting(true);
     try {
-      const response = await axios.post(`${API}/models/${model.id}/test`, {
-        input_text: inputText
-      });
+      // For demo mode, simulate AI response
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const demoResponse = `Demo Response: Based on the model "${model.name}", here's a sample response to "${inputText}". In a real implementation, this would be processed by the Gemini AI with your custom training data.`;
 
       const result = {
         input: inputText,
-        output: response.data.output,
-        confidence: response.data.confidence,
-        processing_time: response.data.processing_time,
+        output: demoResponse,
+        confidence: 0.95,
+        processing_time: 1.8,
         timestamp: new Date()
       };
 
-      setOutput(response.data.output);
+      setOutput(demoResponse);
       setTestHistory(prev => [result, ...prev]);
       setInputText('');
     } catch (error) {
